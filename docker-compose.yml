@@ -1,0 +1,39 @@
+web:
+  build: ./web
+  restart: always
+  environment:
+    SERVICE_80_NAME: ${POD_NAME}/http
+  ports:
+    - 80
+    - 443
+  volumes_from:
+    - data
+  links:
+    - app
+
+app:
+  build: ./app
+  restart: always
+  ports:
+    - 9000
+  volumes_from:
+    - data
+  links:
+    - db:mysql
+
+db:
+  build: ./db
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: wordpress
+    MYSQL_DATABASE: wordpress
+  volumes_from:
+    - data
+
+data:
+  build: ./data
+  command: tail -f /dev/null
+  restart: always
+  volumes:
+    - ${DATA_LOCATION}/www:/var/www/html
+    - ${DATA_LOCATION}/db:/var/lib/mysql

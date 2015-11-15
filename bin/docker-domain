@@ -1,0 +1,33 @@
+#!/bin/bash
+# This scripts allow one to add/remove domain entries in /etc/hosts for docker containers.
+
+if [ -z $1 ]; then
+    echo 'Usage:'
+    echo '  add        Append a domain to a container'
+    echo '  remove     Remove assigned domaint to container'
+else
+
+    if [[ $1 == 'add' ]]; then
+        if [ -z $2 ] || [ -z $3 ]; then
+            echo 'Usage:'
+            echo '  domain add container_identifier domain_name'
+        else
+            IP=$(docker inspect --format='{{.NetworkSettings.IPAddress}}' ${2})
+            DOMAIN=$3
+            sed -i "/$DOMAIN\s#DOCKER_DOMAIN$/d" /etc/hosts
+            echo "$IP $DOMAIN #DOCKER_DOMAIN" >> "/etc/hosts"
+        fi
+    fi
+
+    if [[ $1 == 'remove' ]]; then
+        if [ -z $2 ] || [ -z $3 ]; then
+            echo 'Usage:'
+            echo '  domain remove container_identifier domain_name'
+        else
+            IP=$(docker inspect --format='{{.NetworkSettings.IPAddress}}' ${2})
+            DOMAIN=$3
+            sed -i "/$DOMAIN\s#DOCKER_DOMAIN$/d" /etc/hosts
+        fi
+    fi
+
+fi

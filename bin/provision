@@ -1,0 +1,10 @@
+#!/bin/bash
+
+ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
+source ${ROOT}/bin/common.sh
+
+${ROOT}/bin/compose kill
+${ROOT}/bin/compose rm -f
+sudo rm -Rf ${DATA_LOCATION}
+
+${ROOT}/bin/up

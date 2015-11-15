@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
+source ${ROOT}/bin/common.sh
+
+${ROOT}/bin/compose build
+${ROOT}/bin/compose up -d --force-recreate
+
+sudo ${ROOT}/bin/docker-domain add ${PROJECT_NAME}_web_1 ${PROJECT_NAME}.dev
