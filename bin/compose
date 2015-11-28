@@ -3,4 +3,4 @@
 ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 source ${ROOT}/bin/common.sh
 
-docker-compose -f ${ROOT}/docker-compose.yml -p ${PROJECT_NAME} "$@"
+docker-compose -f ${ROOT}/docker-compose.yml -p ${POD_NAME} "$@"

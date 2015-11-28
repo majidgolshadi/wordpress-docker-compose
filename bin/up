@@ -6,4 +6,4 @@ source ${ROOT}/bin/common.sh
 ${ROOT}/bin/compose build
 ${ROOT}/bin/compose up -d --force-recreate
 
-sudo ${ROOT}/bin/docker-domain add ${PROJECT_NAME}_web_1 ${PROJECT_NAME}.dev
+sudo ${ROOT}/bin/docker-domain add ${POD_NAME}_web_1 ${POD_NAME}.dev
