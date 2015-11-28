@@ -4,75 +4,22 @@ source /entrypoint.sh
 
 if [ ! -f /var/www/html/.dadevarzan_installed ]; then
     # Copy Avada theme files
-    cd /var/www/html/wp-content/themes && unzip -o /usr/src/dadevarzan/Avada.zip
+    unzip -o /usr/src/dadevarzan/Avada.zip -d /var/www/html/wp-content/themes
     chown -R www-data:www-data /var/www/html/wp-content/themes/Avada
 
     # Installing Plugins
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/nginx-helper.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/nginx-helper
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/wordfence.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/wordfence
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/wordpress-seo.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/wordpress-seo
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/google-captcha.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/google-captcha
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/google-analytics-for-wordpress.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/google-analytics-for-wordpress
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/duplicate-post.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/duplicate-post
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/user-role-editor.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/user-role-editor
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/adminimize.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/adminimize
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/loco-translate.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/loco-translate
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/stops-core-theme-and-plugin-updates.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/stops-core-theme-and-plugin-updates
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/wp-smushit.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/wp-smushit
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/all-in-one-wp-security-and-firewall.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/all-in-one-wp-security-and-firewall
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/underconstruction.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/underconstruction
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/w3-total-cache.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/w3-total-cache
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/contact-form-7.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/contact-form-7
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/legacy-admin.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/legacy-admin
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/LayerSlider.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/LayerSlider
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/fusion-core.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/fusion-core
-
-    cd /var/www/html/wp-content/plugins && unzip -o /usr/src/dadevarzan/revslider.zip
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/revslider
+    for plugin in $(ls /usr/src/dadevarzan/*.zip)
+    do
+        unzip -o /usr/src/dadevarzan/$plugin -d /var/www/html/wp-content/plugins/
+    done
+    chown -R www-data:www-data /var/www/html/wp-content/plugins/*
 
     # Remove unused plugins
     rm -rf /var/www/html/wp-content/plugins/akismet
     rm /var/www/html/wp-content/plugins/hello.php
 
     # Remove unused theme
-    rm -rf /var/www/html/wp-content/themes/twentyfifteen
-    rm -rf /var/www/html/wp-content/themes/twentyfourteen
-    rm -rf /var/www/html/wp-content/themes/twentythirteen
+    rm -rf /var/www/html/wp-content/themes/{twentyfifteen, twentyfourteen, twentythirteen}
 
     # Add css file for customizing admin panel (for all users)
     mv /usr/src/dadevarzan/admin_panel_base.css /var/www/html/wp-content/themes/Avada
@@ -83,13 +30,14 @@ if [ ! -f /var/www/html/.dadevarzan_installed ]; then
     chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/admin_panel_user.css
 
     # Add font files
-    cd /var/www/html/wp-content/themes/Avada && unzip -o /usr/src/dadevarzan/fonts.zip
+    unzip -o /usr/src/dadevarzan/fonts.zip -d /var/www/html/wp-content/themes/Avada
     chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/fonts
 
     # New 404.php file
     rm /var/www/html/wp-content/themes/Avada/404.php
     mv /usr/src/dadevarzan/404.php /var/www/html/wp-content/themes/Avada
     chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/404.php
+    find /usr/src/dadevarzan/ -maxdepth 1 -type f -name '*.zip' -delete
 
   # Activate nginx plugin once logged in
   cat << ENDL >> /var/www/html/wp-config.php

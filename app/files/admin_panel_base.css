@@ -12,7 +12,6 @@
 button, input, div, span, #wpbody-content, #wpbody-content a, #wpbody-content span, #wpbody-content, #wpbody-content label, #wpbody-content h4, #wpbody-content textarea, #wpfooter p,  #wpfooter a, h1, h2, h3, h4, h5, h6
 {
 	font-family: BYekan,tahoma !important;
-
 }
 
 #adminmenu a.menu-top, #adminmenu .wp-submenu-head, #adminmenu .wp-has-current-submenu ul>li>a, .folded #adminmenu li.menu-top .wp-submenu>li>a, #adminmenu .wp-not-current-submenu .wp-submenu li>a, .folded #adminmenu .wp-has-current-submenu .wp-submenu li>a, #collapse-menu

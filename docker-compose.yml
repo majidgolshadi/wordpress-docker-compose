@@ -3,9 +3,7 @@ web:
   restart: always
   environment:
     SERVICE_80_NAME: ${POD_NAME}/http
-  ports:
-    - 80
-    - 443
+    SERVICE_443_NAME: ${POD_NAME}/https
   volumes_from:
     - data
   links:
