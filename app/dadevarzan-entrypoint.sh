@@ -4,26 +4,26 @@ source /entrypoint.sh
 
 if [ ! -f /var/www/html/.dadevarzan_installed ]; then
     # Copy Avada theme files
-    unzip -o ${ZIP_FILE_DIR}/Avada.zip -d /var/www/html/wp-content/themes
-    rm -f ${ZIP_FILE_DIR}/Avada.zip
+    unzip -o ${DADEVARZAN_FILE_DIR}/zip/Avada.zip -d /var/www/html/wp-content/themes
+    rm -f ${DADEVARZAN_FILE_DIR}/zip/Avada.zip
 
     # Add font files
-    unzip -o ${ZIP_FILE_DIR}/fonts.zip -d /var/www/html/wp-content/themes/Avada
-    rm -f ${ZIP_FILE_DIR}/fonts.zip
+    unzip -o ${DADEVARZAN_FILE_DIR}/zip/fonts.zip -d /var/www/html/wp-content/themes/Avada
+    rm -f ${DADEVARZAN_FILE_DIR}/zip/fonts.zip
 
     # Installing Plugins
-    for plugin in $(ls /usr/src/dadevarzan/zip/)
+    for plugin in $(ls ${DADEVARZAN_FILE_DIR}/zip/)
     do
-        unzip -o ${ZIP_FILE_DIR}/${plugin} -d /var/www/html/wp-content/plugins/
+        unzip -o ${DADEVARZAN_FILE_DIR}/zip/${plugin} -d /var/www/html/wp-content/plugins/
     done
 
     # Customizing admin panel (for all users)
-    mv /usr/src/dadevarzan/admin_panel_base.css /var/www/html/wp-content/themes/Avada
+    mv ${DADEVARZAN_FILE_DIR}/asstes/admin_panel_base.css /var/www/html/wp-content/themes/Avada
     # Customizing admin panel(for admin-user role)
-    mv /usr/src/dadevarzan/admin_panel_user.css /var/www/html/wp-content/themes/Avada
+    mv ${DADEVARZAN_FILE_DIR}/asstes/admin_panel_user.css /var/www/html/wp-content/themes/Avada
     # Customizing 404 page
     rm /var/www/html/wp-content/themes/Avada/404.php
-    mv /usr/src/dadevarzan/404.php /var/www/html/wp-content/themes/Avada
+    mv ${DADEVARZAN_FILE_DIR}/404.php /var/www/html/wp-content/themes/Avada
 
   # Activate nginx plugin once logged in
   cat << ENDL >> /var/www/html/wp-config.php
@@ -92,7 +92,7 @@ ENDL
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_user.css
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_base.css
 
-    rm -rf ${ZIP_FILE_DIR}
+    rm -rf ${DADEVARZAN_FILE_DIR}
     rm -rf /var/www/html/wp-content/plugins/akismet
     rm /var/www/html/wp-content/plugins/hello.php
     rm -rf /var/www/html/wp-content/themes/{twentyfifteen,twentyfourteen,twentythirteen}
