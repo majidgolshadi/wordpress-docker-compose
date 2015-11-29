@@ -1,0 +1,21 @@
+#!/bin/bash
+
+export POD_NAME=wordpress
+export DATA_LOCATION=/tmp/${POD_NAME}
+ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
+
+function download_zip_if_not_exist() {
+    FILE_ADDRESS=${ROOT}/app/files/zip/${1}
+
+    if [ ! -f ${FILE_ADDRESS} ]; then
+        curl -o ${FILE_ADDRESS} ${2}
+    fi
+}
+
+download_zip_if_not_exist wp.zip http://wordpress-files.ravaj.ir/wp.zip
+download_zip_if_not_exist wordpress-4.3.1-fa_IR.zip http://wordpress-files.ravaj.ir/wordpress-4.3.1-fa_IR.zip
+download_zip_if_not_exist Avada.zip http://wordpress-files.ravaj.ir/Avada.zip
+download_zip_if_not_exist fusion-core.zip http://wordpress-files.ravaj.ir/fusion-core.zip
+download_zip_if_not_exist LayerSlider.zip http://wordpress-files.ravaj.ir/LayerSlider.zip
+download_zip_if_not_exist legacy-admin.zip http://wordpress-files.ravaj.ir/legacy-admin.zip
+download_zip_if_not_exist revslider.zip http://wordpress-files.ravaj.ir/revslider.zip

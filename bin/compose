@@ -1,6 +1,6 @@
 #!/bin/bash
 
 ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
-source ${ROOT}/bin/common.sh
+source ${ROOT}/bin/common
 
 docker-compose -f ${ROOT}/docker-compose.yml -p ${POD_NAME} "$@"

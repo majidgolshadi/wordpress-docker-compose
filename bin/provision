@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
-source ${ROOT}/bin/common.sh
+source ${ROOT}/bin/common
 
 ${ROOT}/bin/compose kill
 ${ROOT}/bin/compose rm -f

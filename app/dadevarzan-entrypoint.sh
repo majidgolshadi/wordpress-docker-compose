@@ -4,40 +4,26 @@ source /entrypoint.sh
 
 if [ ! -f /var/www/html/.dadevarzan_installed ]; then
     # Copy Avada theme files
-    unzip -o /usr/src/dadevarzan/Avada.zip -d /var/www/html/wp-content/themes
-    chown -R www-data:www-data /var/www/html/wp-content/themes/Avada
-
-    # Installing Plugins
-    for plugin in $(ls /usr/src/dadevarzan/*.zip)
-    do
-        unzip -o /usr/src/dadevarzan/$plugin -d /var/www/html/wp-content/plugins/
-    done
-    chown -R www-data:www-data /var/www/html/wp-content/plugins/*
-
-    # Remove unused plugins
-    rm -rf /var/www/html/wp-content/plugins/akismet
-    rm /var/www/html/wp-content/plugins/hello.php
-
-    # Remove unused theme
-    rm -rf /var/www/html/wp-content/themes/{twentyfifteen, twentyfourteen, twentythirteen}
-
-    # Add css file for customizing admin panel (for all users)
-    mv /usr/src/dadevarzan/admin_panel_base.css /var/www/html/wp-content/themes/Avada
-    chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/admin_panel_base.css
-
-    # Add css file for customizing admin panel(for admin-user role)
-    mv /usr/src/dadevarzan/admin_panel_user.css /var/www/html/wp-content/themes/Avada
-    chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/admin_panel_user.css
+    unzip -o ${ZIP_FILE_DIR}/Avada.zip -d /var/www/html/wp-content/themes
+    rm -f ${ZIP_FILE_DIR}/Avada.zip
 
     # Add font files
-    unzip -o /usr/src/dadevarzan/fonts.zip -d /var/www/html/wp-content/themes/Avada
-    chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/fonts
+    unzip -o ${ZIP_FILE_DIR}/fonts.zip -d /var/www/html/wp-content/themes/Avada
+    rm -f ${ZIP_FILE_DIR}/fonts.zip
 
-    # New 404.php file
+    # Installing Plugins
+    for plugin in $(ls /usr/src/dadevarzan/zip/)
+    do
+        unzip -o ${ZIP_FILE_DIR}/${plugin} -d /var/www/html/wp-content/plugins/
+    done
+
+    # Customizing admin panel (for all users)
+    mv /usr/src/dadevarzan/admin_panel_base.css /var/www/html/wp-content/themes/Avada
+    # Customizing admin panel(for admin-user role)
+    mv /usr/src/dadevarzan/admin_panel_user.css /var/www/html/wp-content/themes/Avada
+    # Customizing 404 page
     rm /var/www/html/wp-content/themes/Avada/404.php
     mv /usr/src/dadevarzan/404.php /var/www/html/wp-content/themes/Avada
-    chown -R www-data:www-data /var/www/html/wp-content/themes/Avada/404.php
-    find /usr/src/dadevarzan/ -maxdepth 1 -type f -name '*.zip' -delete
 
   # Activate nginx plugin once logged in
   cat << ENDL >> /var/www/html/wp-config.php
@@ -63,7 +49,6 @@ if ( count( \$plugins ) === 0 ) {
   }
 }
 ENDL
-chown www-data:www-data /var/www/html/wp-config.php
 
 # Edit function.php
 cat << ENDL >> /var/www/html/wp-content/themes/Avada/functions.php
@@ -103,10 +88,14 @@ function my_custom_fonts() { ?>
 </style>
 <?php }
 ENDL
-    chown www-data:www-data /var/www/html/wp-content/themes/Avada/admin_panel_user.css
+    chown -R www-data:www-data /var/www/html/*
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_user.css
-    chown www-data:www-data /var/www/html/wp-content/themes/Avada/admin_panel_base.css
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_base.css
+
+    rm -rf ${ZIP_FILE_DIR}
+    rm -rf /var/www/html/wp-content/plugins/akismet
+    rm /var/www/html/wp-content/plugins/hello.php
+    rm -rf /var/www/html/wp-content/themes/{twentyfifteen,twentyfourteen,twentythirteen}
 
     touch /var/www/html/.dadevarzan_installed
 fi
