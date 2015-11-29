@@ -1,26 +1,22 @@
 #!/bin/bash
 
+set -e
+
 source /entrypoint.sh
 
 if [ ! -f /var/www/html/.dadevarzan_installed ]; then
-    # Copy Avada theme files
-    unzip -o ${DADEVARZAN_FILE_DIR}/zip/Avada.zip -d /var/www/html/wp-content/themes
-    rm -f ${DADEVARZAN_FILE_DIR}/zip/Avada.zip
+    unzip -o ${DADEVARZAN_FILE_DIR}/themes/Avada.zip -d /var/www/html/wp-content/themes
+    unzip -o ${DADEVARZAN_FILE_DIR}/assets/fonts.zip -d /var/www/html/wp-content/themes/Avada
 
-    # Add font files
-    unzip -o ${DADEVARZAN_FILE_DIR}/zip/fonts.zip -d /var/www/html/wp-content/themes/Avada
-    rm -f ${DADEVARZAN_FILE_DIR}/zip/fonts.zip
-
-    # Installing Plugins
-    for plugin in $(ls ${DADEVARZAN_FILE_DIR}/zip/)
+    for plugin in $(ls ${DADEVARZAN_FILE_DIR}/plugins/)
     do
-        unzip -o ${DADEVARZAN_FILE_DIR}/zip/${plugin} -d /var/www/html/wp-content/plugins/
+        unzip -o ${DADEVARZAN_FILE_DIR}/plugins/${plugin} -d /var/www/html/wp-content/plugins/
     done
 
     # Customizing admin panel (for all users)
-    mv ${DADEVARZAN_FILE_DIR}/asstes/admin_panel_base.css /var/www/html/wp-content/themes/Avada
+    mv ${DADEVARZAN_FILE_DIR}/assets/admin_panel_base.css /var/www/html/wp-content/themes/Avada
     # Customizing admin panel(for admin-user role)
-    mv ${DADEVARZAN_FILE_DIR}/asstes/admin_panel_user.css /var/www/html/wp-content/themes/Avada
+    mv ${DADEVARZAN_FILE_DIR}/assets/admin_panel_user.css /var/www/html/wp-content/themes/Avada
     # Customizing 404 page
     rm /var/www/html/wp-content/themes/Avada/404.php
     mv ${DADEVARZAN_FILE_DIR}/404.php /var/www/html/wp-content/themes/Avada
@@ -88,9 +84,9 @@ function my_custom_fonts() { ?>
 </style>
 <?php }
 ENDL
-    chown -R www-data:www-data /var/www/html/*
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_user.css
     chmod -f 644 /var/www/html/wp-content/themes/Avada/admin_panel_base.css
+    chown -R www-data:www-data /var/www/html/*
 
     rm -rf ${DADEVARZAN_FILE_DIR}
     rm -rf /var/www/html/wp-content/plugins/akismet

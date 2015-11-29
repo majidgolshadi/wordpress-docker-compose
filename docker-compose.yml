@@ -17,9 +17,9 @@ app:
   volumes_from:
     - data
   links:
-    - db:mysql
+    - mysql
 
-db:
+mysql:
   build: ./db
   restart: always
   environment:

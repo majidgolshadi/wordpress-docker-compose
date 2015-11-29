@@ -4,18 +4,24 @@ export POD_NAME=wordpress
 export DATA_LOCATION=/tmp/${POD_NAME}
 ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 
-function download_zip_if_not_exist() {
-    FILE_ADDRESS=${ROOT}/app/files/zip/${1}
+function download_if_not_exist() {
+    DIR=${ROOT}/app/files/${1}
+    FILE_PATH=${DIR}/${2}
+    DOWNLOAD_URL=${3}
 
-    if [ ! -f ${FILE_ADDRESS} ]; then
-        curl -o ${FILE_ADDRESS} ${2}
+    if [ ! -f ${FILE_PATH} ]; then
+        mkdir ${DIR} > /dev/null 2>&1
+        curl -o ${FILE_PATH} ${DOWNLOAD_URL}
     fi
 }
 
-download_zip_if_not_exist wp.zip http://wordpress-files.ravaj.ir/wp.zip
-download_zip_if_not_exist wordpress-4.3.1-fa_IR.zip http://wordpress-files.ravaj.ir/wordpress-4.3.1-fa_IR.zip
-download_zip_if_not_exist Avada.zip http://wordpress-files.ravaj.ir/Avada.zip
-download_zip_if_not_exist fusion-core.zip http://wordpress-files.ravaj.ir/fusion-core.zip
-download_zip_if_not_exist LayerSlider.zip http://wordpress-files.ravaj.ir/LayerSlider.zip
-download_zip_if_not_exist legacy-admin.zip http://wordpress-files.ravaj.ir/legacy-admin.zip
-download_zip_if_not_exist revslider.zip http://wordpress-files.ravaj.ir/revslider.zip
+download_if_not_exist core wordpress-4.3.1-fa_IR.zip http://wordpress-files.ravaj.ir/wordpress-4.3.1-fa_IR.zip
+
+download_if_not_exist assets fonts.zip http://wordpress-files.ravaj.ir/fonts.zip
+
+download_if_not_exist themes Avada.zip http://wordpress-files.ravaj.ir/Avada.zip
+
+download_if_not_exist plugins fusion-core.zip http://wordpress-files.ravaj.ir/fusion-core.zip
+download_if_not_exist plugins LayerSlider.zip http://wordpress-files.ravaj.ir/LayerSlider.zip
+download_if_not_exist plugins legacy-admin.zip http://wordpress-files.ravaj.ir/legacy-admin.zip
+download_if_not_exist plugins revslider.zip http://wordpress-files.ravaj.ir/revslider.zip
