@@ -1,0 +1,45 @@
+web:
+  build: ./web
+  restart: always
+  environment:
+    SERVICE_80_NAME: ${POD_NAME}/http
+    SERVICE_443_NAME: ${POD_NAME}/https
+  volumes_from:
+    - data
+  links:
+    - app
+
+app:
+  build: ./app
+  restart: always
+  expose:
+    - 9000
+  environment:
+    SERVICE_IGNORE: ignore
+  volumes_from:
+    - data
+  links:
+    - mysql
+
+mysql:
+    image: ravaj/paas-mysql-client
+    restart: always
+    environment:
+      DATABASE_NAME: ${POD_NAME}
+      SERVICE_IGNORE: ignore
+    external_links:
+      - paas_mysql_api
+      - paas_mysql_service
+    volumes_from:
+      - data
+
+data:
+  build: ./data
+  command: tail -f /dev/null
+  restart: always
+  environment:
+    SERVICE_IGNORE: ignore
+  volumes:
+    - ${DATA_LOCATION}/www:/var/www/wordpress
+#    - ${DATA_LOCATION}/db:/var/lib/mysql
+    - ${DATA_LOCATION}/db:/config

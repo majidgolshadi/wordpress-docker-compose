@@ -12,19 +12,22 @@ web:
 app:
   build: ./app
   restart: always
-  ports:
+  expose:
     - 9000
+  environment:
+    SERVICE_IGNORE: ignore
   volumes_from:
     - data
   links:
     - mysql
 
 mysql:
-  build: ./db
+  build: ./mysql
   restart: always
   environment:
     MYSQL_ROOT_PASSWORD: wordpress
     MYSQL_DATABASE: wordpress
+    SERVICE_IGNORE: ignore
   volumes_from:
     - data
 
@@ -32,6 +35,9 @@ data:
   build: ./data
   command: tail -f /dev/null
   restart: always
+  environment:
+    SERVICE_IGNORE: ignore
   volumes:
-    - ${DATA_LOCATION}/www:/var/www/html
-    - ${DATA_LOCATION}/db:/var/lib/mysql
+    - ${DATA_LOCATION}/www:/var/www/wordpress
+#    - ${DATA_LOCATION}/db:/var/lib/mysql
+    - ${DATA_LOCATION}/db:/config

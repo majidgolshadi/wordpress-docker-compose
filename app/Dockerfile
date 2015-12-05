@@ -1,11 +1,13 @@
-FROM wordpress:4.3-fpm
-MAINTAINER Ali Naghavi <naghavi.ali@gmail.com>
+FROM php:5.6-fpm
 
 RUN \
     apt-get update && \
-    apt-get install -y curl unzip libmcrypt-dev && \
-    docker-php-ext-install mcrypt gd
+    apt-get install -y libpng12-dev libjpeg-dev curl unzip libmcrypt-dev netcat && \
+    docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr && \
+    docker-php-ext-install gd mysqli opcache mcrypt && \
+    rm -rf /var/lib/apt/lists/*
 
+COPY ./opcache-recommended.ini /usr/local/etc/php/conf.d/
 COPY ./php-fpm.ini ${PHP_INI_DIR}/conf.d/
 
 #==============================
@@ -17,13 +19,13 @@ ENV PLUGINS="nginx-helper wordfence wordpress-seo google-captcha google-analytic
 COPY ./files ${DADEVARZAN_FILE_DIR}
 COPY ./dadevarzan-entrypoint.sh /dadevarzan-entrypoint.sh
 
-RUN rm -rf /usr/src/wordpress && unzip -o $DADEVARZAN_FILE_DIR/core/wordpress-4.3.1-fa_IR.zip -d /usr/src && \
+RUN \
     for PLUGIN in $PLUGINS ;do \
         curl -o $DADEVARZAN_FILE_DIR/plugins/$PLUGIN.zip -O `curl -i -s https://wordpress.org/plugins/$PLUGIN/ | egrep -o "https://downloads.wordpress.org/plugin/[^']+"`; \
-    done && \
-    sed -i '$ d' /entrypoint.sh
+    done
 
 ENTRYPOINT ["bash", "/dadevarzan-entrypoint.sh"]
 CMD ["php-fpm"]
 
 EXPOSE 80 443
+VOLUME /var/www
