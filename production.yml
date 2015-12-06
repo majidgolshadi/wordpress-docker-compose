@@ -7,18 +7,6 @@ web:
   volumes_from:
     - data
   links:
-    - app
-
-app:
-  build: ./app
-  restart: always
-  expose:
-    - 9000
-  environment:
-    SERVICE_IGNORE: ignore
-  volumes_from:
-    - data
-  links:
     - mysql
 
 mysql:
