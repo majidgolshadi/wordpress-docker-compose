@@ -1,3 +1,3 @@
-FROM mysql:5.6
+FROM ravaj/paas-mysql-client
 
 ADD wordpress.sql /docker-entrypoint-initdb.d/

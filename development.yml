@@ -11,6 +11,7 @@ web:
 
 mysql:
   build: ./mysql
+  dockerfile: development
   restart: always
   environment:
     MYSQL_ROOT_PASSWORD: wordpress
