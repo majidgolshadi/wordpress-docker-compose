@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.9
 
 ENV DADEVARZAN_FILE_DIR /tmp/dadevarzan
 ENV PRIVATE_PLUGINS "fusion-core layerSlider legact-admin revslider"
@@ -24,7 +24,7 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
-    sed -i -e "s/user nginx/user www-data/g" /etc/nginx/nginx.conf && \
+    sed -i -e "s/user  nginx/user  www-data/g" /etc/nginx/nginx.conf && \
     sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
 
 

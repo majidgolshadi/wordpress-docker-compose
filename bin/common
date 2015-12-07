@@ -5,7 +5,7 @@ export DATA_LOCATION=/tmp/${POD_NAME}
 ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 
 function download_if_not_exist() {
-    DIR=${ROOT}/app/files/${1}
+    DIR=${ROOT}/web/files/${1}
     FILE_PATH=${DIR}/${2}
     DOWNLOAD_URL=${3}
 

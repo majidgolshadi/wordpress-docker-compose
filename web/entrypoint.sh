@@ -84,7 +84,7 @@ if [ ! -f ${WORDPRESS_DIR}/.dadevarzan_installed ]; then
     chown -R www-data:www-data ${WEB_DIR}
 
     rm -rf ${DADEVARZAN_FILE_DIR}
-    rm -rf ${WORDPRESS_DIR}/wp-content/plugins/{akismet, hello.php}
+    rm -rf ${WORDPRESS_DIR}/wp-content/plugins/{akismet,hello.php}
     rm -rf ${WORDPRESS_DIR}/wp-content/themes/{twentyfifteen,twentyfourteen,twentythirteen}
 
     touch ${WORDPRESS_DIR}/.dadevarzan_installed
