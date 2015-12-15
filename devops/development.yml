@@ -1,6 +1,8 @@
 web:
-  build: ./web
+  build: ../web
   restart: always
+  ports:
+    - "80"
   environment:
     SERVICE_80_NAME: ${POD_NAME}/http
     SERVICE_443_NAME: ${POD_NAME}/https
@@ -10,7 +12,7 @@ web:
     - mysql
 
 mysql:
-  build: ./mysql
+  build: ../mysql
   dockerfile: development
   restart: always
   environment:
@@ -21,12 +23,12 @@ mysql:
     - data
 
 data:
-  build: ./data
+  build: ../data
   command: tail -f /dev/null
   restart: always
   environment:
     SERVICE_IGNORE: ignore
   volumes:
     - ${DATA_LOCATION}/www:/var/www/wordpress
-#    - ${DATA_LOCATION}/db:/var/lib/mysql
+    - ${DATA_LOCATION}/db:/var/lib/mysql
     - ${DATA_LOCATION}/db:/config

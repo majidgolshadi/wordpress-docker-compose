@@ -1,5 +1,5 @@
 web:
-  build: ./web
+  build: ../web
   restart: always
   environment:
     SERVICE_80_NAME: ${POD_NAME}/http
@@ -10,7 +10,7 @@ web:
     - mysql
 
 mysql:
-    build: ./mysql
+    build: ../mysql
     dockerfile: production
     restart: always
     environment:
@@ -23,12 +23,12 @@ mysql:
       - data
 
 data:
-  build: ./data
+  build: ../data
   command: tail -f /dev/null
   restart: always
   environment:
     SERVICE_IGNORE: ignore
   volumes:
     - ${DATA_LOCATION}/www:/var/www/wordpress
-#    - ${DATA_LOCATION}/db:/var/lib/mysql
+    - ${DATA_LOCATION}/db:/var/lib/mysql
     - ${DATA_LOCATION}/db:/config
