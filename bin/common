@@ -11,7 +11,7 @@ function download_if_not_exist() {
 
     if [ ! -f ${FILE_PATH} ]; then
         mkdir ${DIR} > /dev/null 2>&1
-        echo "Download ${1} ..."
+        echo "Download ${2} ..."
         curl -o ${FILE_PATH} ${DOWNLOAD_URL}
     fi
 }
