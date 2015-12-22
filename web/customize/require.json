@@ -1,0 +1,28 @@
+{
+  "themes": {
+    "Avada": "http://wordpress-files.ravaj.ir/Avada.zip"
+  },
+
+  "plugins": {
+    "fusion-core": "http://wordpress-files.ravaj.ir/fusion-core.zip",
+    "LayerSlider": "http://wordpress-files.ravaj.ir/LayerSlider.zip",
+    "legacy-admin": "http://wordpress-files.ravaj.ir/legacy-admin.zip",
+    "revslider": "http://wordpress-files.ravaj.ir/revslider.zip",
+
+    "nginx-helper": "~",
+    "wordfence": "~",
+    "wordpress-seo": "~",
+    "google-captcha": "~",
+    "google-analytics": "~",
+    "duplicate-post": "~",
+    "user-role-editor": "~",
+    "adminimize": "~",
+    "loco-translate": "~",
+    "stops-core-theme-and-plugin-updates": "~",
+    "wp-smushit": "~",
+    "all-in-one-wp-security-and-firewall": "~",
+    "underconstruction": "~",
+    "w3-total-cache": "~",
+    "contact-form-7": "~"
+  }
+}
