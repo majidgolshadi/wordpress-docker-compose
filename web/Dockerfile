@@ -1,11 +1,10 @@
 FROM nginx:1.9
 
-ENV DADEVARZAN_FILE_DIR /tmp/dadevarzan
-ENV PRIVATE_PLUGINS "fusion-core layerSlider legact-admin revslider"
-ENV PLUGINS "nginx-helper wordfence wordpress-seo google-captcha google-analytics duplicate-post user-role-editor adminimize loco-translate stops-core-theme-and-plugin-updates wp-smushit all-in-one-wp-security-and-firewall underconstruction w3-total-cache contact-form-7"
+ENV CUSTOM_FILE_DIR /tmp/dadevarzan
 
-COPY files ${DADEVARZAN_FILE_DIR}
+COPY customize ${CUSTOM_FILE_DIR}
 COPY entrypoint.sh /entrypoint.sh
+COPY utils.sh /utils.sh
 COPY start.sh /start.sh
 
 RUN \
@@ -14,10 +13,10 @@ RUN \
                                     libpng12-dev libjpeg-dev libmcrypt-dev unzip netcat
 
 RUN \
-    for PLUGIN in $PLUGINS ;do \
-        curl -o $DADEVARZAN_FILE_DIR/plugins/$PLUGIN.zip -O `curl -i -s https://wordpress.org/plugins/$PLUGIN/ | \
-        egrep -o "https://downloads.wordpress.org/plugin/[^']+"`; \
-    done
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
+    apt-get install -y jq
 
 RUN \
     apt-get clean && \
@@ -27,8 +26,8 @@ RUN \
     sed -i -e "s/user  nginx/user  www-data/g" /etc/nginx/nginx.conf && \
     sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf
 
+COPY nginx-fpm.conf /etc/nginx/conf.d/default.conf
 
-COPY wordpress-fpm.conf /etc/nginx/conf.d/default.conf
 
 VOLUME ["/var/www/wordpress"]
 
