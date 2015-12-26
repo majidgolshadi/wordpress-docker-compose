@@ -1,0 +1,1 @@
+update wp_options SET option_value="/" WHERE option_name="siteurl";

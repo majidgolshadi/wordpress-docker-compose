@@ -10,8 +10,7 @@ web:
     - mysql
 
 mysql:
-    build: ../mysql
-    dockerfile: production
+    image: ravaj/paas-mysql-client
     restart: always
     environment:
       DATABASE_NAME: ${POD_NAME}
