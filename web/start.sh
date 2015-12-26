@@ -1,4 +1,4 @@
 #!/bin/bash
 
-php5-fpm &
+php-fpm &
 nginx -g "daemon off;"

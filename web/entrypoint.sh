@@ -29,7 +29,7 @@ if [ ! -f ${WORDPRESS_DIR}/.dadevarzan_installed ]; then
 
     awk '/^\/\*.*stop editing.*\*\/$/ && c == 0 { c = 1; system("cat") } { print }' ${WORDPRESS_DIR}/wp-config-sample.php > ${WORDPRESS_DIR}/wp-config.php
     for unique in "${UNIQUES[@]}"; do
-        set_config "$unique" "$(head -c1M /dev/urandom | sha1sum | cut -d' ' -f1)"
+        set_config "$unique" "$(head -c256 /dev/urandom | sha1sum | cut -d' ' -f1)"
     done
 
     # Wait for mysql contaienr to come up
@@ -51,7 +51,7 @@ if [ ! -f ${WORDPRESS_DIR}/.dadevarzan_installed ]; then
     install_plugins ${WORDPRESS_DIR}/require.json
     source ${WORDPRESS_DIR}/customization.sh
 
-    chown -R www-data:www-data ${WEB_DIR}
+    chown -R nobody:nobody ${WEB_DIR}
 
     rm -rf ${CUSTOM_FILE_DIR}
     rm -rf ${WORDPRESS_DIR}/wp-content/plugins/{akismet,hello.php}
