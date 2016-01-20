@@ -25,7 +25,7 @@ install_themes() {
     THEMES=(`jq '.themes | keys' ${REQUIRE_FILE} | tr -d '"[,]\n'`)
 
     for THEME in "${THEMES[@]}"; do
-        value=`jq '.themes.'${THEME} $REQUIRE_FILE | tr -d '"'`
+        value=`jq .themes.'"'"${THEME}"'"' $REQUIRE_FILE | tr -d '"'`
         if [ -z ${value} ] || [ "${value}" == "~" ]; then
             install_theme $THEME
         else
@@ -39,7 +39,7 @@ install_plugins() {
     PLUGINS=(`jq '.plugins | keys' ${REQUIRE_FILE} | tr -d '"[,]\n'`)
 
     for PLUGIN in "${PLUGINS[@]}"; do
-        value=`jq '.plugins.'${PLUGIN} $REQUIRE_FILE | tr -d '"'`
+        value=`jq .plugins.'"'"${PLUGIN}"'"' $REQUIRE_FILE | tr -d '"'`
         if [ -z ${value} ] || [ "${value}" == "~" ]; then
             install_plugin ${PLUGIN}
         else

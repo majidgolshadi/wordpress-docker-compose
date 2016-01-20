@@ -4,11 +4,6 @@ ENV WEB_DIR=/var/www
 ENV WORDPRESS_DIR=/var/www/wordpress
 ENV CUSTOM_FILE_DIR /tmp/dadevarzan
 
-COPY customize ${CUSTOM_FILE_DIR}
-COPY entrypoint.sh /entrypoint.sh
-COPY utils.sh /utils.sh
-COPY start.sh /start.sh
-
 RUN \
     apt-get update && \
     apt-get install -y --force-yes \
@@ -51,6 +46,10 @@ RUN \
 
 COPY nginx-fpm.conf /etc/nginx/conf.d/default.conf
 
+COPY customize ${CUSTOM_FILE_DIR}
+COPY entrypoint.sh /entrypoint.sh
+COPY utils.sh /utils.sh
+COPY start.sh /start.sh
 
 VOLUME ["/var/www/wordpress"]
 
