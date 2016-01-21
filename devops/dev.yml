@@ -1,6 +1,7 @@
 web:
   build: ../web
   restart: always
+  mem_limit: 128m
   ports:
     - "80"
   environment:

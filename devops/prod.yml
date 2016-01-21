@@ -1,6 +1,7 @@
 web:
   build: ../web
   restart: always
+  mem_limit: 128m
   environment:
     SERVICE_80_NAME: ${POD_NAME}/http
     SERVICE_443_NAME: ${POD_NAME}/https
